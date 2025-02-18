@@ -1,19 +1,4 @@
-const { getChart } = require('billboard-top-100');
-function getRecentTuesday() {
-    const now = new Date(Date.now())
-    const daysSince = (now.getDay() + 5) % 7
-    const MS_DAY = 86400000;
-
-    const recentTues = new Date(now - daysSince*MS_DAY);
-
-    const year = recentTues.getFullYear();
-    let month = recentTues.getMonth()+1;
-    let dayDate = recentTues.getDate();
-    if(month<10){ month = '0'+month;}
-    if(dayDate<10) {dayDate = '0'+dayDate;}
-
-    return year + '-' + month + '-' + dayDate;
-}
+import { getChart } from 'billboard-top-100';
 
 function removeConnector(initialList, connector){
     let temp = [];
@@ -28,10 +13,9 @@ function removeConnector(initialList, connector){
     return temp.flat();
 }
 
-
-function fetchSongs() {
+function fetchSongs(date) {
     return new Promise((resolve, reject) => {
-        getChart('billboard-global-200', getRecentTuesday(), (err, chart) => {
+        getChart('billboard-global-200', date, (err, chart) => {
             if (err) {
                 reject(err);
             } else {
@@ -42,9 +26,9 @@ function fetchSongs() {
 }
 
 // Using async/await
-async function collectArtists() {
+async function collectArtists(date) {
     try {
-        const songs = await fetchSongs();
+        const songs = await fetchSongs(date);
         const points = {};
         for(let i = 0; i < 200; i++){
             let pointValue = 200-i;
@@ -59,7 +43,7 @@ async function collectArtists() {
             let artists = [];
             artists.push(fullArtists);
 
-            let connectors = [' & ',', ',' X ',' vs. ',' With ',' Featuring '];
+            let connectors = [' & ',', ',' X ',' x ',' vs. ',' With ',' Featuring '];
 
             for (let c of connectors){
                 artists = removeConnector(artists,c);
@@ -67,7 +51,7 @@ async function collectArtists() {
 
             //assign points to all artists for the song
             for (let a of artists){
-                formatedArtist = a.trim();
+                let formatedArtist = a.trim();
 
                 if (typeof points[formatedArtist] == 'undefined'){
                     points[formatedArtist] = pointValue;
@@ -76,21 +60,17 @@ async function collectArtists() {
                     points[formatedArtist] += pointValue;
                 }
             }
-
-            
         }
 
-        //output
-        const sortedEntries = Object.entries(points).sort(([, valueA], [, valueB]) => valueA - valueB);
-        console.log(sortedEntries.reverse());
-        //console.log(songs);
+        return points;
+        
     } catch (err) {
         console.log(err);
     }
 }
 
-collectArtists();
 
-
-
-
+export async function pointsFromDate(date) {
+    const result = await collectArtists(date);
+    return result;
+}
