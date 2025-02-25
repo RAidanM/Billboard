@@ -13,23 +13,25 @@ function dateToYYYYMMDD(date){
 }
 
 
-function getRecentTuesday(givenDate) {
+function getRecentSaturday(givenDate) {
 
-    const daysSince = (givenDate.getDay() + 5) % 7
+    const daysSince = (givenDate.getDay() + 1) % 7
     const MS_DAY = 86400000;
 
     return new Date(givenDate - daysSince*MS_DAY);
 }
 
-function getDates(givenDate, weeks){
-    const startDate = getRecentTuesday(givenDate)
+function getDates(start, end){
+    let startDate = getRecentSaturday(start)
     const MS_DAY = 86400000;
     const dates = [];
 
-    for(let i = 0; i < weeks; i++){
-        dates.push( dateToYYYYMMDD( new Date(startDate - ( i * (7*MS_DAY) )) ) )
+    while(startDate > end){
+        dates.push( dateToYYYYMMDD( new Date( startDate ) ) )
+        startDate -= 7*MS_DAY
     }
-    return dates;
+
+    return dates.reverse();
 }
 
 function combineLists(lists){
@@ -40,6 +42,17 @@ function combineLists(lists){
                 temp[key] += l[key];
             }
             else {
+                temp[key] = l[key];
+            }
+        }
+    return temp
+}
+
+function intersecLists( filter, lists ){
+    let temp = {};
+    for (let l of lists)
+        for (let key in l){
+            if( filter.includes(key) ){
                 temp[key] = l[key];
             }
         }
@@ -67,11 +80,31 @@ async function writeToFile(content,name) {
 }
 
 async function output() {
-    const start_date = new Date(Date.now()-3*365*86400000-51*86400000)
-    const boards = await pullBoards( getDates( start_date , 52 ));
-    const combination = combineLists(boards);
-    const sortedEntries = Object.entries(combination).sort(([, valueA], [, valueB]) => valueA - valueB);
-    writeToFile(JSON.stringify(sortedEntries.reverse(), null, 2), dateToYYYYMMDD(start_date) );
+    //const a = new Date( Date.now() );
+    const a = new Date( 2025, 0, 25 );
+    const b = new Date( 2025, 0, 1 );
+    const chosen_artists = [
+        'The Weeknd', 'Ed Sheeran', 'BTS', 'Harry Styles', 'Travis Scott', 
+        'Bruno Mars', 'Rauw Alejandro', 'Hozier', 'Beyonce', 'Mariah Carey', 
+        'Bad Bunny', 'Morgan Wallen', 'Taylor Swift', 'Tito Double P', 'Post Malone', 
+        'Kendrick Lamar', 'Lana Del Rey', 'Gracie Abrams', 'Coldplay', 'Benson Boone', 
+        'Lady Gaga', 'Ariana Grande', 'ROSE', 'Olivia Rodrigo', 'Lil Nas X', 
+        'Sabrina Carpenter', 'Billie Eilish', 'GIVEON', 'Teddy Swims', 'Arctic Monkeys', 
+        'Doechii', 'Tate McRae', 'BLACKPINK', 'GloRilla', 'Doja Cat', 'SZA', 
+        'Chappell Roan', 'Miley Cyrus', 'Tyler The Creator', 'Tyla', 'Stray Kids', 
+        'beabadoobee', 'Summer Walker', 'PARTYNEXTDOOR', 'Demi Lovato'
+    ];
+    const dates = getDates( a, b );
+    console.log(dates);
+
+    const boards = await pullBoards( dates );
+    //console.log(boards);
+
+    const instersectedLists = intersecLists(chosen_artists, boards );
+    console.log( instersectedLists );
+
+    //const sortedEntries = Object.entries(combination).sort(([, valueA], [, valueB]) => valueA - valueB);
+    //writeToFile(JSON.stringify(sortedEntries.reverse(), null, 2), 'Output' );
 
 }
 
