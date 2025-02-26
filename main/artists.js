@@ -39,11 +39,16 @@ async function collectArtists(date) {
                 let temp = fullArtists.split("Tyler,").join("Tyler");
                 fullArtists = temp;
             }
+            if (fullArtists.indexOf("GIVEON")!=-1){
+                let temp = fullArtists.split("GIVEON").join("Giveon");
+                fullArtists = temp;
+            }
+            
 
             let artists = [];
             artists.push(fullArtists);
 
-            let connectors = [' & ',', ',' X ',' x ',' vs. ',' With ',' Featuring '];
+            let connectors = [' & ',', ',' X ',' x ',' vs. ',' With ',' Featuring ','duet','Duet'];
 
             for (let c of connectors){
                 artists = removeConnector(artists,c);
