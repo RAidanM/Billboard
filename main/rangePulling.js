@@ -82,12 +82,14 @@ async function writeToFile(content, name) {
 async function dataOutput(start, end, artists) {
 
     const dates = getDates( start, end );
-    const boards = await pullBoards( dates );
 
-    for( let key in boards){
+    const completeData = {}
+    for( let date of dates){
 
-        const instersectedLists = intersecLists(artists, [ boards[key] ]);
+        const board = await pullBoards( [date] );
 
+        const instersectedLists = intersecLists(artists, board);
+        
         const data = [];
         
         for (let key in instersectedLists){
@@ -97,8 +99,11 @@ async function dataOutput(start, end, artists) {
             data.push(obj);
         }
 
-        writeToFile(JSON.stringify(data), dates[key]);
+        completeData[date] = data;
+        
     }
+
+    writeToFile(JSON.stringify(completeData), 'artistGrowthData' );
 }
 
 const a = new Date( 2025, 0, 25 );
