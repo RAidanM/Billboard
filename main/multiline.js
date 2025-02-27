@@ -1,31 +1,16 @@
 (async function() {
+  try {
+    const response = await fetch('./data/multiLineArtists Output.json');
+    const fullData = await response.json(); // Wait for JSON data
 
-  //const fullData = await ( await fetch('./data/artistGrowthData.json')).json();
-
-  new Chart(
-    document.getElementById('acquisitions'),
-    {
-      type: 'line',
-      data: {
-        labels: ['2025-01-04','2025-01-11','2025-01-18'],
-        datasets: [
-          {
-            label: 'Mariah Carey',
-            //data: data.map(row => row.points)
-            data: [174,50]
-          },
-          {
-            label: 'Rose',
-            data: [394,600]
-            //data: data.map(row => row.points)
-          },
-          {
-            label: 'Bruno Mars',
-            data: [835,0]
-            //data: data.map(row => row.points)
-          }
-        ]
+    new Chart(
+      document.getElementById('acquisitions'),
+      {
+        type: 'line',
+        data: fullData // Use the fetched data
       }
-    }
-  );
+    );
+  } catch (error) {
+    console.error('Problem fetching data', error);
+  }
 })();
