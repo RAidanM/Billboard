@@ -70,43 +70,49 @@ async function pullBoards(dates) {
     return multipleBoards;
 }
 
-async function writeToFile(content,name) {
+async function writeToFile(content, name) {
     try {
-        await writeFile(name+'.txt', content);
+        await writeFile( './data/'+name+'.json', content);
         console.log('File written successfully!');
     } catch (err) {
         console.error('Error writing to file:', err);
     }
 }
 
-async function output() {
-    //const a = new Date( Date.now() );
-    const a = new Date( 2025, 0, 25 );
-    const b = new Date( 2025, 0, 1 );
-    const chosen_artists = [
-        'The Weeknd', 'Ed Sheeran', 'BTS', 'Harry Styles', 'Travis Scott', 
-        'Bruno Mars', 'Rauw Alejandro', 'Hozier', 'Beyonce', 'Mariah Carey', 
-        'Bad Bunny', 'Morgan Wallen', 'Taylor Swift', 'Tito Double P', 'Post Malone', 
-        'Kendrick Lamar', 'Lana Del Rey', 'Gracie Abrams', 'Coldplay', 'Benson Boone', 
-        'Lady Gaga', 'Ariana Grande', 'ROSE', 'Olivia Rodrigo', 'Lil Nas X', 
-        'Sabrina Carpenter', 'Billie Eilish', 'GIVEON', 'Teddy Swims', 'Arctic Monkeys', 
-        'Doechii', 'Tate McRae', 'BLACKPINK', 'GloRilla', 'Doja Cat', 'SZA', 
-        'Chappell Roan', 'Miley Cyrus', 'Tyler The Creator', 'Tyla', 'Stray Kids', 
-        'beabadoobee', 'Summer Walker', 'PARTYNEXTDOOR', 'Demi Lovato'
-    ];
-    const dates = getDates( a, b );
-    console.log(dates);
+async function dataOutput(start, end, artists) {
 
+    const dates = getDates( start, end );
     const boards = await pullBoards( dates );
-    //console.log(boards);
 
-    const instersectedLists = intersecLists(chosen_artists, boards );
-    console.log( instersectedLists );
+    for( let key in boards){
 
-    //const sortedEntries = Object.entries(combination).sort(([, valueA], [, valueB]) => valueA - valueB);
-    //writeToFile(JSON.stringify(sortedEntries.reverse(), null, 2), 'Output' );
+        const instersectedLists = intersecLists(artists, [ boards[key] ]);
 
+        const data = [];
+        
+        for (let key in instersectedLists){
+            const obj = {};
+            obj['artist'] = key;
+            obj['points'] = instersectedLists[key];
+            data.push(obj);
+        }
+
+        writeToFile(JSON.stringify(data), dates[key]);
+    }
 }
 
-output();
+const a = new Date( 2025, 0, 25 );
+const b = new Date( 2025, 0, 1 );
+const chosen_artists = [
+    'The Weeknd', 'Ed Sheeran', 'BTS', 'Harry Styles', 'Travis Scott', 
+    'Bruno Mars', 'Rauw Alejandro', 'Hozier', 'Beyonce', 'Mariah Carey', 
+    'Bad Bunny', 'Morgan Wallen', 'Taylor Swift', 'Tito Double P', 'Post Malone', 
+    'Kendrick Lamar', 'Lana Del Rey', 'Gracie Abrams', 'Coldplay', 'Benson Boone', 
+    'Lady Gaga', 'Ariana Grande', 'ROSE', 'Olivia Rodrigo', 'Lil Nas X', 
+    'Sabrina Carpenter', 'Billie Eilish', 'Giveon', 'Teddy Swims', 'Arctic Monkeys', 
+    'Doechii', 'Tate McRae', 'BLACKPINK', 'GloRilla', 'Doja Cat', 'SZA', 
+    'Chappell Roan', 'Miley Cyrus', 'Tyler The Creator', 'Tyla', 'Stray Kids', 
+    'beabadoobee', 'Summer Walker', 'PARTYNEXTDOOR', 'Demi Lovato'
+];
 
+dataOutput( a, b, chosen_artists);
