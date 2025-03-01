@@ -69,7 +69,7 @@ export async function pullBoards(dates) {
     for (let d in dates){
         const board = await pointsFromDate(dates[d]);
         multipleBoards.push(board);
-        console.log("Finished pulling board " + (d+1) + " of " + dates.length)
+        console.log("Finished pulling board " + d + " of " + dates.length);
     }
 
     return multipleBoards;
