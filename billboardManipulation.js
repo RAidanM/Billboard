@@ -66,9 +66,10 @@ export function intersecLists( filter, lists ){
 export async function pullBoards(dates) {
     const multipleBoards = [];
 
-    for (let d of dates){
-        const board = await pointsFromDate(d);
+    for (let d in dates){
+        const board = await pointsFromDate(dates[d]);
         multipleBoards.push(board);
+        console.log("Finished pulling board " + (d+1) + " of " + dates.length)
     }
 
     return multipleBoards;
