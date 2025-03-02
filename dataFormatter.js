@@ -138,15 +138,15 @@ const participants = [
     },
     {
         participant: 'Manny',
-        artists: ['Doechii', 'Tate McRae', 'BLACKPINK', 'GloRilla', 'Doja Cat', 'SZA']
+        artists: ['Doechii', 'Tate McRae', 'BLACKPINK', 'GloRilla', 'Doja Cat']
     },
     {
         participant: 'Jess',
-        artists: ['Chappell Roan', 'Miley Cyrus', 'Tyler The Creator', 'Tyla', 'Stray Kids']
+        artists: ['SZA', 'Chappell Roan', 'Miley Cyrus', 'Tyler The Creator', 'Tyla']
     },
     {
         participant: 'Megan',
-        artists: ['beabadoobee', 'Summer Walker', 'PARTYNEXTDOOR', 'Demi Lovato']
+        artists: ['Stray Kids', 'beabadoobee', 'Summer Walker', 'PARTYNEXTDOOR', 'Demi Lovato']
     }
 ];
 
