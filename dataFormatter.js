@@ -58,30 +58,101 @@ async function multiLineArtists(start, end, chosen_artists) {
     return data;
 }
 
-async function matrixTest(a, b, chosen_artists) {
-    const dates = getDates( a, b );
+async function participantPortfolio(start, end, participants) {
+    const data = {};
 
-    const board = await pullBoards( dates );
 
-    const matrix = pointMatrix(chosen_artists, board);
+    const labels = [];
+    const datasets = [];
+
+    const dates = getDates( start, end );
+    const boards = await pullBoards( dates );
+    const allPoints = await intersecLists( seperateArtists(participants), boards);
+
+    for(let p in participants){
+        labels.push(participants[p].participant);
         
-    console.log(matrix);
+        for(let a of participants[p].artists){
+            const obj = {};
+            obj['label'] = a;
 
+            let temp = [];
+            for (let i = 0; i < p; i++){
+                temp.push(0);
+            }
+            const points = (a in allPoints) ? allPoints[a] : 0;
+            
+            temp.push(points);
+            console.log(temp);
+
+            obj['data'] = temp;
+            obj['stack'] = 'Stack 0';
+            datasets.push(obj);
+        }
+
+    }
+
+    data['labels'] = labels;
+    data['datasets'] = datasets;
+
+    return data;
+}
+
+function seperateArtists(participants) {
+    const arr = [];
+
+    for(let p of participants){
+        arr.push(p.artists);
+    }
+
+    return arr.flat();
 }
 
 const a = new Date( Date.now() );
 const b = new Date( 2025, 0, 1 );
-const chosen_artists = [
-    'The Weeknd', 'Ed Sheeran', 'BTS', 'Harry Styles', 'Travis Scott', 
-    'Bruno Mars', 'Rauw Alejandro', 'Hozier', 'Beyonce', 'Mariah Carey', 
-    'Bad Bunny', 'Morgan Wallen', 'Taylor Swift', 'Tito Double P', 'Post Malone', 
-    'Kendrick Lamar', 'Lana Del Rey', 'Gracie Abrams', 'Coldplay', 'Benson Boone', 
-    'Lady Gaga', 'Ariana Grande', 'ROSE', 'Olivia Rodrigo', 'Lil Nas X', 
-    'Sabrina Carpenter', 'Billie Eilish', 'Giveon', 'Teddy Swims', 'Arctic Monkeys', 
-    'Doechii', 'Tate McRae', 'BLACKPINK', 'GloRilla', 'Doja Cat', 'SZA', 
-    'Chappell Roan', 'Miley Cyrus', 'Tyler The Creator', 'Tyla', 'Stray Kids', 
-    'beabadoobee', 'Summer Walker', 'PARTYNEXTDOOR', 'Demi Lovato'
+
+const participants = [
+    {
+        participant: 'Jack',
+        artists: ['The Weeknd', 'Ed Sheeran', 'BTS', 'Harry Styles', 'Travis Scott']
+    },
+    {
+        participant: 'Davide',
+        artists: ['Bruno Mars', 'Rauw Alejandro', 'Hozier', 'Beyonce', 'Mariah Carey']
+    },
+    {
+        participant: 'Aidan',
+        artists: ['Bad Bunny', 'Morgan Wallen', 'Taylor Swift', 'Tito Double P', 'Post Malone']
+    },
+    {
+        participant: 'Mathilda',
+        artists: ['Kendrick Lamar', 'Lana Del Rey', 'Gracie Abrams', 'Coldplay', 'Benson Boone']
+    },
+    {
+        participant: 'Daniel',
+        artists: ['Lady Gaga', 'Ariana Grande', 'ROSE', 'Olivia Rodrigo', 'Lil Nas X']
+    },
+    {
+        participant: 'Becca',
+        artists: ['Sabrina Carpenter', 'Billie Eilish', 'Giveon', 'Teddy Swims', 'Arctic Monkeys']
+    },
+    {
+        participant: 'Manny',
+        artists: ['Doechii', 'Tate McRae', 'BLACKPINK', 'GloRilla', 'Doja Cat', 'SZA']
+    },
+    {
+        participant: 'Jess',
+        artists: ['Chappell Roan', 'Miley Cyrus', 'Tyler The Creator', 'Tyla', 'Stray Kids']
+    },
+    {
+        participant: 'Megan',
+        artists: ['beabadoobee', 'Summer Walker', 'PARTYNEXTDOOR', 'Demi Lovato']
+    }
 ];
 
-const output = await multiLineArtists( a, b, chosen_artists);
-writeToFile(JSON.stringify(output),'multiLineArtists Output');
+
+const portfolioOutput = await participantPortfolio(a,b,participants);
+console.log(portfolioOutput);
+writeToFile( JSON.stringify(portfolioOutput), 'portfolioOutput' );
+const multiLineOutput = await multiLineArtists( a, b, seperateArtists(participants) );
+writeToFile( JSON.stringify(multiLineOutput), 'multiLineOutput' );

@@ -1,10 +1,10 @@
 (async function() {
   try {
-    const response = await fetch('./data/multiLineArtists Output.json');
+    const response = await fetch('./data/multiLineOutput.json');
     const fullData = await response.json(); // Wait for JSON data
 
     new Chart(
-      document.getElementById('acquisitions'),
+      document.getElementById('artists'),
       {
         type: 'line',
         data: fullData // Use the fetched data

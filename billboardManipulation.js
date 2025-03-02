@@ -51,11 +51,15 @@ export function combineLists(lists){
 
 export function intersecLists( filter, lists ){
     let temp = {};
-
     for (let l of lists){
         for (let key in l){
             if( filter.includes(key) ){
-                temp[key] = l[key];
+                if (temp[key] != undefined){
+                    temp[key] += l[key];
+                }
+                else {
+                    temp[key] = l[key];
+                }
             }
         }
     }
