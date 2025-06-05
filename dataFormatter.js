@@ -1,30 +1,14 @@
-import {getDates, pullBoards, intersecLists, writeToFile, pointMatrix} from './billboardManipulation.js';
+import {getDates, pullBoards, intersecLists, writeToFile, pointMatrix, intersecListsNoFilter} from './billboardManipulation.js';
 
-async function dataOutput(start, end, artists) {
+async function biggestTotal(start, end) {
 
     const dates = getDates( start, end );
+    const boards = await pullBoards( dates );
+    const allPoints = await intersecListsNoFilter(boards);
 
-    const completeData = {}
-    for( let date of dates){
 
-        const board = await pullBoards( [date] );
-
-        const instersectedLists = intersecLists(artists, board);
-        
-        const data = [];
-        
-        for (let key in instersectedLists){
-            const obj = {};
-            obj['artist'] = key;
-            obj['points'] = instersectedLists[key];
-            data.push(obj);
-        }
-
-        completeData[date] = data;
-        
-    }
-
-    writeToFile(JSON.stringify(completeData), 'artistGrowthData' );
+    const sortedEntries = Object.entries(allPoints).sort(([, valueA], [, valueB]) => valueA - valueB);
+    writeToFile(JSON.stringify(sortedEntries.reverse()), 'totalMergedData' );
 }
 
 async function multiLineArtists(start, end, chosen_artists) {
@@ -150,9 +134,12 @@ const participants = [
     }
 ];
 
-
+/*
 const portfolioOutput = await participantPortfolio(a,b,participants);
 console.log(portfolioOutput);
 writeToFile( JSON.stringify(portfolioOutput), 'portfolioOutput' );
 const multiLineOutput = await multiLineArtists( a, b, seperateArtists(participants) );
 writeToFile( JSON.stringify(multiLineOutput), 'multiLineOutput' );
+*/
+
+const total = await biggestTotal(a, b);

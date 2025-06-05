@@ -67,6 +67,22 @@ export function intersecLists( filter, lists ){
     return temp
 }
 
+export function intersecListsNoFilter(lists ){
+    let temp = {};
+    for (let l of lists){
+        for (let key in l){
+            if (temp[key] != undefined){
+                temp[key] += l[key];
+            }
+            else {
+                temp[key] = l[key];
+            }
+        }
+    }
+
+    return temp
+}
+
 export async function pullBoards(dates) {
     const multipleBoards = [];
 
