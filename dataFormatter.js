@@ -134,12 +134,10 @@ const participants = [
     }
 ];
 
-/*
 const portfolioOutput = await participantPortfolio(a,b,participants);
 console.log(portfolioOutput);
 writeToFile( JSON.stringify(portfolioOutput), 'portfolioOutput' );
 const multiLineOutput = await multiLineArtists( a, b, seperateArtists(participants) );
 writeToFile( JSON.stringify(multiLineOutput), 'multiLineOutput' );
-*/
 
 const total = await biggestTotal(a, b);
