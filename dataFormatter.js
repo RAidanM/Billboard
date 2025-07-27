@@ -98,15 +98,15 @@ const b = new Date( 2025, 0, 1 );
 const participants = [
     {
         participant: 'Jack',
-        artists: ['The Weeknd', 'Ed Sheeran', 'BTS', 'Harry Styles', 'Travis Scott']
+        artists: ['The Weeknd', 'Ed Sheeran', 'BTS', 'Harry Styles', 'Travis Scott','TWICE']
     },
     {
         participant: 'Davide',
-        artists: ['Bruno Mars', 'Rauw Alejandro', 'Hozier', 'Beyonce', 'Mariah Carey']
+        artists: ['Bruno Mars', 'Rauw Alejandro', 'Hozier', 'Beyonce', 'Mariah Carey','sombr']
     },
     {
         participant: 'Aidan',
-        artists: ['Bad Bunny', 'Morgan Wallen', 'Taylor Swift', 'Tito Double P', 'Post Malone']
+        artists: ['Bad Bunny', 'Morgan Wallen', 'Taylor Swift', 'Tito Double P', 'Post Malone','Beele']
     },
     {
         participant: 'Mathilda',
@@ -114,24 +114,29 @@ const participants = [
     },
     {
         participant: 'Daniel',
-        artists: ['Lady Gaga', 'Ariana Grande', 'ROSE', 'Olivia Rodrigo', 'Lil Nas X']
+        artists: ['Lady Gaga', 'Ariana Grande', 'ROSE', 'Olivia Rodrigo', 'Lil Nas X',"EJAE"]
     },
     {
         participant: 'Becca',
-        artists: ['Sabrina Carpenter', 'Billie Eilish', 'Giveon', 'Teddy Swims', 'Arctic Monkeys']
+        artists: ['Sabrina Carpenter', 'Billie Eilish', 'Giveon', 'Teddy Swims', 'Arctic Monkeys','KATSEYE']
     },
     {
         participant: 'Manny',
-        artists: ['Doechii', 'Tate McRae', 'BLACKPINK', 'GloRilla', 'Doja Cat']
+        artists: ['Doechii', 'Tate McRae', 'BLACKPINK', 'GloRilla', 'Doja Cat','Drake']
     },
     {
         participant: 'Jess',
-        artists: ['SZA', 'Chappell Roan', 'Miley Cyrus', 'Tyler The Creator', 'Tyla']
+        artists: ['SZA', 'Chappell Roan', 'Miley Cyrus', 'Tyler The Creator', 'Tyla',"Andrew Choi"]
     },
     {
         participant: 'Megan',
-        artists: ['Stray Kids', 'beabadoobee', 'Summer Walker', 'PARTYNEXTDOOR', 'Demi Lovato']
+        artists: ['Stray Kids', 'beabadoobee', 'Summer Walker', 'PARTYNEXTDOOR', 'Demi Lovato','Alex Warren']
     }
+    // ,
+    // {
+    //     participant: 'Unclaimed',
+    //     artists: ['Fuerza Regida','Beele','Karol G',"Jennie",'REI AMI','Audrey Nuna','Justin Bieber']
+    // }
 ];
 
 const portfolioOutput = await participantPortfolio(a,b,participants);

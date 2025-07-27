@@ -43,12 +43,27 @@ async function collectArtists(date) {
                 let temp = fullArtists.split("GIVEON").join("Giveon");
                 fullArtists = temp;
             }
-            
+            if (fullArtists.indexOf("JENNIE")!=-1){
+                let temp = fullArtists.split("JENNIE").join("Jennie");
+                fullArtists = temp;
+            }
+            if (fullArtists.indexOf("HUNTR/X: EJAE")!=-1){
+                let temp = fullArtists.split("HUNTR/X: EJAE").join("EJAE");
+                fullArtists = temp;
+            }
+            if (fullArtists.indexOf("Saja Boys: Andrew Choi")!=-1){
+                let temp = fullArtists.split("Saja Boys: Andrew Choi").join("Andrew Choi");
+                fullArtists = temp;
+            }
+            if (fullArtists.indexOf("CHAEYOUNG Of TWICE")!=-1){
+                let temp = fullArtists.split("CHAEYOUNG Of TWICE").join("TWICE");
+                fullArtists = temp;
+            }
 
             let artists = [];
             artists.push(fullArtists);
 
-            let connectors = [' & ',', ',' X ',' x ',' vs. ',' With ',' Featuring ','duet','Duet'];
+            let connectors = [' & ',', ',' X ',' x ',' vs. ',' With ',' Featuring ',' Featauring ','duet','Duet'];
 
             for (let c of connectors){
                 artists = removeConnector(artists,c);
